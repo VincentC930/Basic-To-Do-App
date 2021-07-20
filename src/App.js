@@ -1,25 +1,40 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import TodoList from './TodoList';
+import Form from './Form';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      todoItems: []
+    }
+    this.removeItem = this.removeItem.bind(this);
+    this.addItem = this.addItem.bind(this);
+  }
+  removeItem(task) {
+    let tasks = this.state.todoItems;
+    tasks = tasks.filter(currTask => currTask.id !== task.id);
+    this.setState({todoItems: tasks});
+  }
+  addItem(task) {
+    let tasks = this.state.todoItems;
+    tasks.push(task);
+    this.setState({todoItems: tasks});
+  }
+
+  render() {
+    return (
+      
+      <div>
+        <Form addItem={this.addItem} todoItems={this.state.todoItems} />
+        <TodoList todoItems={this.state.todoItems} removeItem={this.removeItem} addItem={this.addItem} />
+        
+      </div>
+      
+    )
+  }
 }
 
 export default App;
